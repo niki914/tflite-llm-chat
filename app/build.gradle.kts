@@ -18,11 +18,11 @@ android {
     }
 
     defaultConfig {
-        applicationId = "dev.chungjungsoo.gptmobile.niki"
+        applicationId = "com.niki.tflite.mobile"
         minSdk = 31
         targetSdk = 35
-        versionCode = 20
-        versionName = "x"
+        versionCode = 1
+        versionName = "0.2"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {

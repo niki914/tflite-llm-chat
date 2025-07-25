@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">GPTMobile</string>
+    <string name="app_name">TFLiteMobile</string>
     <string name="gpt_mobile_introduction_logo">GPT Mobile的介绍图标</string>
     <string name="welcome_title">最好的AI助理，\n你可以在你的手机上用它。</string>
     <string name="welcome_description">选择一个最适合你的模型，问一切你想问的!</string>
@@ -21,21 +21,6 @@
     <string name="google_api_key">Google的API密钥</string>
     <string name="select_openai_model">选择OpenAI会话的模型</string>
     <string name="select_openai_model_description">请选择OpenAI会话的模型，尽管部分模型是多模态的，但我们目前只支持纯文本输入，在未来可能会支持更多功能。</string>
-    <!--    <string name="gpt_4o_description">最快最实惠的旗舰模型。</string>-->
-    <!--    <string name="gpt_4o_mini_description">经济且快速的小模型，但只适合处理简单任务</string>-->
-    <!--    <string name="gpt_4_turbo_description">高可靠性的模型，而且比GPT-4便宜3倍。</string>-->
-    <!--    <string name="gpt_4_description">适合解决抽象问题。</string>-->
-    <!--    <string name="select_anthropic_model">选择Anthropic会话的模型</string>-->
-    <!--    <string name="select_anthropic_model_description">请选择Anthropic会话的模型，目前仅支持纯文本输入的Claude 3系列模型</string>-->
-    <!--    <string name="claude_3_5_sonnet_description">Anthropic的最智能的模型</string>-->
-    <!--    <string name="claude_3_opus_description">擅长写作等复杂的任务</string>-->
-    <!--    <string name="claude_3_sonnet_description">智能和速度的平衡</string>-->
-    <!--    <string name="claude_3_haiku_description">Anthropic的最快且最小巧的模型</string>-->
-    <!--    <string name="select_google_model">选择Google会话的模型</string>-->
-    <!--    <string name="select_google_model_description">Gemini是Google研发的生成式AI，此应用现仅支持纯文本输入</string>-->
-    <!--    <string name="gemini_1_5_pro_description">对代码和生成文本等推理任务有优化的模型</string>-->
-    <!--    <string name="gemini_1_5_flash_description">胜任不同场景的高性能模型</string>-->
-    <!--    <string name="gemini_1_0_pro_description">自然语言，上下文对话和代码生成与修正</string>-->
     <string name="setup_complete">已经配置完毕!</string>
     <string name="setup_complete_description">开始使用GPT Mobile吧!</string>
     <string name="done">完成</string>

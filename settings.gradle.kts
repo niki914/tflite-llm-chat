@@ -30,5 +30,5 @@ dependencyResolutionManagement {
         gradlePluginPortal()
     }
 }
-rootProject.name = "GPTMobile"
+rootProject.name = "tensor-flow-lite-mobile"
 include(":app")
