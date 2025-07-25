@@ -75,6 +75,9 @@ class ChatViewModel @Inject constructor(
 //    private val _groqLoadingState = MutableStateFlow<LoadingState>(LoadingState.Idle)
 //    val groqLoadingState = _groqLoadingState.asStateFlow()
 
+    private val _tfLiteLoadingState = MutableStateFlow<LoadingState>(LoadingState.Idle)
+    val tfLiteLoadingState = _tfLiteLoadingState.asStateFlow()
+
     private val _ollamaLoadingState = MutableStateFlow<LoadingState>(LoadingState.Idle)
     val ollamaLoadingState = _ollamaLoadingState.asStateFlow()
 
@@ -107,6 +110,9 @@ class ChatViewModel @Inject constructor(
 //    private val _groqMessage = MutableStateFlow(Message(chatId = chatRoomId, content = "", platformType = ApiType.GROQ))
 //    val groqMessage = _groqMessage.asStateFlow()
 
+    private val _tfLiteMessage = MutableStateFlow(Message(chatId = chatRoomId, content = "", platformType = ApiType.TENSOR_FLOW_LITE))
+    val tfLiteMessage = _tfLiteMessage.asStateFlow()
+
     private val _ollamaMessage = MutableStateFlow(Message(chatId = chatRoomId, content = "", platformType = ApiType.OLLAMA))
     val ollamaMessage = _ollamaMessage.asStateFlow()
 
@@ -119,6 +125,7 @@ class ChatViewModel @Inject constructor(
 //    private val googleFlow = MutableSharedFlow<ApiState>()
 //    private val groqFlow = MutableSharedFlow<ApiState>()
     private val ollamaFlow = MutableSharedFlow<ApiState>()
+    private val tfLiteFlow = MutableSharedFlow<ApiState>()
     private val geminiNanoFlow = MutableSharedFlow<ApiState>()
 
     init {
@@ -215,6 +222,11 @@ class ChatViewModel @Inject constructor(
                 completeOllamaChat()
             }
 
+            ApiType.TENSOR_FLOW_LITE -> {
+                _tfLiteMessage.update { it.copy(id = message.id, content = "", createdAt = currentTimeStamp) }
+                completeTFLiteChat()
+            }
+
             else -> {}
         }
     }
@@ -270,6 +282,7 @@ class ChatViewModel @Inject constructor(
 //        _googleMessage.update { it.copy(id = 0, content = "") }
 //        _groqMessage.update { it.copy(id = 0, content = "") }
         _ollamaMessage.update { it.copy(id = 0, content = "") }
+        _tfLiteMessage.update { it.copy(id = 0, content = "") }
     }
 
     private fun completeChat() {
@@ -294,6 +307,10 @@ class ChatViewModel @Inject constructor(
 
         if (ApiType.OLLAMA in enabledPlatforms) {
             completeOllamaChat()
+        }
+
+        if (ApiType.TENSOR_FLOW_LITE in enabledPlatforms) {
+            completeTFLiteChat()
         }
     }
 
@@ -322,6 +339,13 @@ class ChatViewModel @Inject constructor(
         viewModelScope.launch {
             val chatFlow = chatRepository.completeOllamaChat(question = _userMessage.value, history = _messages.value)
             chatFlow.collect { chunk -> ollamaFlow.emit(chunk) }
+        }
+    }
+
+    private fun completeTFLiteChat() {
+        viewModelScope.launch {
+            val chatFlow = chatRepository.completeTFLiteChat(question = _userMessage.value, history = _messages.value)
+            chatFlow.collect { chunk -> tfLiteFlow.emit(chunk) }
         }
     }
 
@@ -404,6 +428,13 @@ class ChatViewModel @Inject constructor(
         }
 
         viewModelScope.launch {
+            tfLiteFlow.handleStates(
+                messageFlow = _tfLiteMessage,
+                onLoadingComplete = { updateLoadingState(ApiType.TENSOR_FLOW_LITE, LoadingState.Idle) }
+            )
+        }
+
+        viewModelScope.launch {
             geminiNanoFlow.handleStates(
                 messageFlow = _geminiNanoMessage,
                 onLoadingComplete = { _geminiNanoLoadingState.update { LoadingState.Idle } }
@@ -434,6 +465,7 @@ class ChatViewModel @Inject constructor(
 //            ApiType.GOOGLE -> _googleLoadingState
 //            ApiType.GROQ -> _groqLoadingState
             ApiType.OLLAMA -> _ollamaLoadingState
+            ApiType.TENSOR_FLOW_LITE -> _tfLiteLoadingState
         }
 
         if (retryingState == LoadingState.Loading) return
@@ -445,6 +477,7 @@ class ChatViewModel @Inject constructor(
 //            ApiType.GOOGLE -> _googleMessage.update { message }
 //            ApiType.GROQ -> _groqMessage.update { message }
             ApiType.OLLAMA -> _ollamaMessage.update { message }
+            ApiType.TENSOR_FLOW_LITE -> _tfLiteMessage.update { message }
         }
     }
 
@@ -471,6 +504,10 @@ class ChatViewModel @Inject constructor(
         if (ApiType.OLLAMA in enabledPlatforms) {
             addMessage(_ollamaMessage.value)
         }
+
+        if (ApiType.TENSOR_FLOW_LITE in enabledPlatforms) {
+            addMessage(_tfLiteMessage.value)
+        }
     }
 
     private fun updateLoadingState(apiType: ApiType, loadingState: LoadingState) {
@@ -480,6 +517,8 @@ class ChatViewModel @Inject constructor(
 //            ApiType.GOOGLE -> _googleLoadingState.update { loadingState }
 //            ApiType.GROQ -> _groqLoadingState.update { loadingState }
             ApiType.OLLAMA -> _ollamaLoadingState.update { loadingState }
+            ApiType.TENSOR_FLOW_LITE -> _tfLiteLoadingState.update { loadingState }
+
         }
 
         var result = true
@@ -490,6 +529,7 @@ class ChatViewModel @Inject constructor(
 //                ApiType.GOOGLE -> _googleLoadingState
 //                ApiType.GROQ -> _groqLoadingState
                 ApiType.OLLAMA -> _ollamaLoadingState
+                ApiType.TENSOR_FLOW_LITE -> _tfLiteLoadingState
             }
 
             result = result && (state.value is LoadingState.Idle)

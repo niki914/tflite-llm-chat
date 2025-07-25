@@ -44,6 +44,7 @@ fun AboutScreen(
     val clipboardManager = LocalClipboardManager.current
     val uriHandler = LocalUriHandler.current
     val githubLink = stringResource(R.string.github_link)
+    val forkedGithubLink = stringResource(R.string.forked_github_link)
     val fdroidLink = stringResource(R.string.f_droid_link)
     val googlePlayLink = stringResource(R.string.play_store_link)
     val bugReportLink = stringResource(R.string.bug_report_link)
@@ -96,6 +97,19 @@ fun AboutScreen(
                 modifier = Modifier.height(64.dp),
                 title = stringResource(R.string.github),
                 onItemClick = { uriHandler.openUri(githubLink) },
+                showTrailingIcon = false,
+                showLeadingIcon = true,
+                leadingIcon = {
+                    Icon(
+                        ImageVector.vectorResource(id = R.drawable.ic_github),
+                        contentDescription = stringResource(R.string.github_icon)
+                    )
+                }
+            )
+            SettingItem(
+                modifier = Modifier.height(64.dp),
+                title = stringResource(R.string.forked_github),
+                onItemClick = { uriHandler.openUri(forkedGithubLink) },
                 showTrailingIcon = false,
                 showLeadingIcon = true,
                 leadingIcon = {

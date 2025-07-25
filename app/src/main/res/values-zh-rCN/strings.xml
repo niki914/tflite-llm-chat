@@ -21,21 +21,21 @@
     <string name="google_api_key">Google的API密钥</string>
     <string name="select_openai_model">选择OpenAI会话的模型</string>
     <string name="select_openai_model_description">请选择OpenAI会话的模型，尽管部分模型是多模态的，但我们目前只支持纯文本输入，在未来可能会支持更多功能。</string>
-    <string name="gpt_4o_description">最快最实惠的旗舰模型。</string>
-    <string name="gpt_4o_mini_description">经济且快速的小模型，但只适合处理简单任务</string>
-    <string name="gpt_4_turbo_description">高可靠性的模型，而且比GPT-4便宜3倍。</string>
-    <string name="gpt_4_description">适合解决抽象问题。</string>
-    <string name="select_anthropic_model">选择Anthropic会话的模型</string>
-    <string name="select_anthropic_model_description">请选择Anthropic会话的模型，目前仅支持纯文本输入的Claude 3系列模型</string>
-    <string name="claude_3_5_sonnet_description">Anthropic的最智能的模型</string>
-    <string name="claude_3_opus_description">擅长写作等复杂的任务</string>
-    <string name="claude_3_sonnet_description">智能和速度的平衡</string>
-    <string name="claude_3_haiku_description">Anthropic的最快且最小巧的模型</string>
-    <string name="select_google_model">选择Google会话的模型</string>
-    <string name="select_google_model_description">Gemini是Google研发的生成式AI，此应用现仅支持纯文本输入</string>
-    <string name="gemini_1_5_pro_description">对代码和生成文本等推理任务有优化的模型</string>
-    <string name="gemini_1_5_flash_description">胜任不同场景的高性能模型</string>
-    <string name="gemini_1_0_pro_description">自然语言，上下文对话和代码生成与修正</string>
+    <!--    <string name="gpt_4o_description">最快最实惠的旗舰模型。</string>-->
+    <!--    <string name="gpt_4o_mini_description">经济且快速的小模型，但只适合处理简单任务</string>-->
+    <!--    <string name="gpt_4_turbo_description">高可靠性的模型，而且比GPT-4便宜3倍。</string>-->
+    <!--    <string name="gpt_4_description">适合解决抽象问题。</string>-->
+    <!--    <string name="select_anthropic_model">选择Anthropic会话的模型</string>-->
+    <!--    <string name="select_anthropic_model_description">请选择Anthropic会话的模型，目前仅支持纯文本输入的Claude 3系列模型</string>-->
+    <!--    <string name="claude_3_5_sonnet_description">Anthropic的最智能的模型</string>-->
+    <!--    <string name="claude_3_opus_description">擅长写作等复杂的任务</string>-->
+    <!--    <string name="claude_3_sonnet_description">智能和速度的平衡</string>-->
+    <!--    <string name="claude_3_haiku_description">Anthropic的最快且最小巧的模型</string>-->
+    <!--    <string name="select_google_model">选择Google会话的模型</string>-->
+    <!--    <string name="select_google_model_description">Gemini是Google研发的生成式AI，此应用现仅支持纯文本输入</string>-->
+    <!--    <string name="gemini_1_5_pro_description">对代码和生成文本等推理任务有优化的模型</string>-->
+    <!--    <string name="gemini_1_5_flash_description">胜任不同场景的高性能模型</string>-->
+    <!--    <string name="gemini_1_0_pro_description">自然语言，上下文对话和代码生成与修正</string>-->
     <string name="setup_complete">已经配置完毕!</string>
     <string name="setup_complete_description">开始使用GPT Mobile吧!</string>
     <string name="done">完成</string>
@@ -153,4 +153,13 @@
     <string name="edit_question">编辑用户信息</string>
     <string name="user_message">用户消息</string>
     <string name="export_chat">导出会话</string>
+
+    <string name="tflite">TensorFlow Lite</string>
+    <string name="tflite_description">使用您自己的本地 .task 文件运行模型。</string>
+    <string name="select_tflite_model">选择 TensorFlow Lite 对话模型</string>
+    <string name="tflite_setting">TensorFlow Lite 设置</string>
+    <string name="tflite_brand_text" translatable="false">由 TensorFlow Lite 提供技术支持</string>
+    <string name="select_tflite_model_description">请选择 TensorFlow Lite 模型。由于支持的模型和标签种类繁多，您可以自定义模型值。请确保端点实际支持该模型并使其运行，否则将无法生成响应。</string>
+    <string name="tflite_api_help" translatable="false">https://ollama.com/blog/openai-compatibility</string>
+    <string name="tflite_api_key">TensorFlow Lite API 密钥</string>
 </resources>

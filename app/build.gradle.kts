@@ -60,6 +60,8 @@ android {
 }
 
 dependencies {
+    implementation("com.google.mediapipe:tasks-genai:0.10.24")
+
     // Android
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
@@ -80,6 +82,7 @@ dependencies {
     // Dependency Injection
     implementation(libs.hilt)
     implementation(libs.androidx.lifecycle.runtime.compose.android)
+    implementation("androidx.lifecycle:lifecycle-process:2.9.2")
     ksp(libs.hilt.compiler)
 
     // Gemini SDK

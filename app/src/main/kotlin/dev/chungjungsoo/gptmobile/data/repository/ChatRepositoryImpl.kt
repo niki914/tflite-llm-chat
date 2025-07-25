@@ -9,13 +9,8 @@ import com.aallam.openai.api.model.ModelId
 import com.aallam.openai.client.OpenAI
 import com.aallam.openai.client.OpenAIHost
 import com.google.ai.client.generativeai.GenerativeModel
-import com.google.ai.client.generativeai.type.BlockThreshold
 import com.google.ai.client.generativeai.type.Content
-import com.google.ai.client.generativeai.type.GenerateContentResponse
-import com.google.ai.client.generativeai.type.HarmCategory
-import com.google.ai.client.generativeai.type.SafetySetting
 import com.google.ai.client.generativeai.type.content
-import com.google.ai.client.generativeai.type.generationConfig
 import dev.chungjungsoo.gptmobile.data.ModelConstants
 import dev.chungjungsoo.gptmobile.data.database.dao.ChatRoomDao
 import dev.chungjungsoo.gptmobile.data.database.dao.MessageDao
@@ -25,18 +20,20 @@ import dev.chungjungsoo.gptmobile.data.dto.ApiState
 import dev.chungjungsoo.gptmobile.data.dto.anthropic.common.MessageRole
 import dev.chungjungsoo.gptmobile.data.dto.anthropic.common.TextContent
 import dev.chungjungsoo.gptmobile.data.dto.anthropic.request.InputMessage
-import dev.chungjungsoo.gptmobile.data.dto.anthropic.request.MessageRequest
-import dev.chungjungsoo.gptmobile.data.dto.anthropic.response.ContentDeltaResponseChunk
-import dev.chungjungsoo.gptmobile.data.dto.anthropic.response.ErrorResponseChunk
-import dev.chungjungsoo.gptmobile.data.dto.anthropic.response.MessageResponseChunk
 import dev.chungjungsoo.gptmobile.data.model.ApiType
 import dev.chungjungsoo.gptmobile.data.network.AnthropicAPI
+import dev.chungjungsoo.gptmobile.presentation.TFLite
 import javax.inject.Inject
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.runBlocking
 
 class ChatRepositoryImpl @Inject constructor(
     private val appContext: Context,
@@ -171,6 +168,54 @@ class ChatRepositoryImpl @Inject constructor(
             .catch { throwable -> emit(ApiState.Error(throwable.message ?: "Unknown error")) }
             .onStart { emit(ApiState.Loading) }
             .onCompletion { emit(ApiState.Done) }
+    }
+
+    private fun getRoleText(isUser: Boolean): String {
+        return if (isUser) {
+            "user: "
+        } else {
+            "model: "
+        }
+    }
+
+    private fun generateBigMessage(allMessages: List<Message>): String {
+        val sb = StringBuilder()
+        allMessages.forEachIndexed { index, msg ->
+            when (index) {
+//                0 -> sb.append(msg.text + "\n")
+                allMessages.size - 1 -> sb.append(getRoleText(false))
+                else -> sb.append("\n${getRoleText(index % 2 == 0)}${msg.content}")
+            }
+        }
+        return sb.toString()
+    }
+
+    override suspend fun completeTFLiteChat(question: Message, history: List<Message>): Flow<ApiState> {
+        val bigMessage = generateBigMessage(history + question)
+        val platform = checkNotNull(settingRepository.fetchPlatforms().firstOrNull { it.name == ApiType.TENSOR_FLOW_LITE })
+
+        return callbackFlow {
+            send(ApiState.Loading)
+            try {
+                val llm = TFLite.buildLLMInference(platform.model ?: "")
+                llm.generateResponseAsync(bigMessage) { partialResult, done ->
+                    runBlocking {
+                        send(ApiState.Success(partialResult))
+
+                        if (done) {
+                            send(ApiState.Done)
+                            close()
+                        }
+                    }
+                }
+            } catch (t: Throwable) {
+                send(ApiState.Error(t.message ?: "Known error"))
+                send(ApiState.Done)
+                close()
+            }
+
+            awaitClose {}
+        }.flowOn(Dispatchers.IO)
     }
 
     override suspend fun fetchChatList(): List<ChatRoom> = chatRoomDao.getChatRooms()

@@ -229,6 +229,7 @@ fun NavGraphBuilder.settingNavigation(navController: NavHostController) {
 //                        ApiType.GOOGLE -> navController.navigate(Route.GOOGLE_SETTINGS)
 //                        ApiType.GROQ -> navController.navigate(Route.GROQ_SETTINGS)
                         ApiType.OLLAMA -> navController.navigate(Route.OLLAMA_SETTINGS)
+                        ApiType.TENSOR_FLOW_LITE -> navController.navigate(Route.TF_LITE_SETTINGS)
                     }
                 },
                 onNavigateToAboutPage = { navController.navigate(Route.ABOUT_PAGE) }
@@ -282,6 +283,17 @@ fun NavGraphBuilder.settingNavigation(navController: NavHostController) {
             PlatformSettingScreen(
                 settingViewModel = settingViewModel,
                 apiType = ApiType.OLLAMA
+            ) { navController.navigateUp() }
+        }
+        // 新增 TF_LITE_SETTINGS
+        composable(Route.TF_LITE_SETTINGS) {
+            val parentEntry = remember(it) {
+                navController.getBackStackEntry(Route.SETTING_ROUTE)
+            }
+            val settingViewModel: SettingViewModel = hiltViewModel(parentEntry)
+            PlatformSettingScreen(
+                settingViewModel = settingViewModel,
+                apiType = ApiType.TENSOR_FLOW_LITE // 注意这里使用 ApiType.TENSOR_FLOW_LITE
             ) { navController.navigateUp() }
         }
         composable(Route.ABOUT_PAGE) {
