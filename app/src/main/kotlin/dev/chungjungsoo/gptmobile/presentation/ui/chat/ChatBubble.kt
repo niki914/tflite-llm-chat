@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Edit
-import androidx.compose.material.icons.rounded.Edit
 import androidx.compose.material.icons.rounded.Refresh
 import androidx.compose.material3.AssistChip
 import androidx.compose.material3.AssistChipDefaults
@@ -219,7 +218,7 @@ fun OpponentChatBubblePreview() {
             text = sampleText,
             canRetry = true,
             isLoading = false,
-            apiType = ApiType.OPENAI,
+            apiType = ApiType.OLLAMA,
             onCopyClick = {},
             onRetryClick = {}
         )

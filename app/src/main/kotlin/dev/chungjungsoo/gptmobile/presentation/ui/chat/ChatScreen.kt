@@ -120,17 +120,17 @@ fun ChatScreen(
     val question by chatViewModel.question.collectAsStateWithLifecycle()
     val appEnabledPlatforms by chatViewModel.enabledPlatformsInApp.collectAsStateWithLifecycle()
     val editedQuestion by chatViewModel.editedQuestion.collectAsStateWithLifecycle()
-    val openaiLoadingState by chatViewModel.openaiLoadingState.collectAsStateWithLifecycle()
-    val anthropicLoadingState by chatViewModel.anthropicLoadingState.collectAsStateWithLifecycle()
-    val googleLoadingState by chatViewModel.googleLoadingState.collectAsStateWithLifecycle()
-    val groqLoadingState by chatViewModel.groqLoadingState.collectAsStateWithLifecycle()
+//    val openaiLoadingState by chatViewModel.openaiLoadingState.collectAsStateWithLifecycle()
+//    val anthropicLoadingState by chatViewModel.anthropicLoadingState.collectAsStateWithLifecycle()
+//    val googleLoadingState by chatViewModel.googleLoadingState.collectAsStateWithLifecycle()
+//    val groqLoadingState by chatViewModel.groqLoadingState.collectAsStateWithLifecycle()
     val ollamaLoadingState by chatViewModel.ollamaLoadingState.collectAsStateWithLifecycle()
     val geminiNanoLoadingState by chatViewModel.geminiNanoLoadingState.collectAsStateWithLifecycle()
     val userMessage by chatViewModel.userMessage.collectAsStateWithLifecycle()
-    val openAIMessage by chatViewModel.openAIMessage.collectAsStateWithLifecycle()
-    val anthropicMessage by chatViewModel.anthropicMessage.collectAsStateWithLifecycle()
-    val googleMessage by chatViewModel.googleMessage.collectAsStateWithLifecycle()
-    val groqMessage by chatViewModel.groqMessage.collectAsStateWithLifecycle()
+//    val openAIMessage by chatViewModel.openAIMessage.collectAsStateWithLifecycle()
+//    val anthropicMessage by chatViewModel.anthropicMessage.collectAsStateWithLifecycle()
+//    val googleMessage by chatViewModel.googleMessage.collectAsStateWithLifecycle()
+//    val groqMessage by chatViewModel.groqMessage.collectAsStateWithLifecycle()
     val ollamaMessage by chatViewModel.ollamaMessage.collectAsStateWithLifecycle()
     val geminiNano by chatViewModel.geminiNanoMessage.collectAsStateWithLifecycle()
     val canUseChat = (chatViewModel.enabledPlatformsInChat.toSet() - appEnabledPlatforms.toSet()).isEmpty()
@@ -274,18 +274,18 @@ fun ChatScreen(
                         Spacer(modifier = Modifier.width(8.dp))
                         chatViewModel.enabledPlatformsInChat.sorted().forEach { apiType ->
                             val message = when (apiType) {
-                                ApiType.OPENAI -> openAIMessage
-                                ApiType.ANTHROPIC -> anthropicMessage
-                                ApiType.GOOGLE -> googleMessage
-                                ApiType.GROQ -> groqMessage
+//                                ApiType.OPENAI -> openAIMessage
+//                                ApiType.ANTHROPIC -> anthropicMessage
+//                                ApiType.GOOGLE -> googleMessage
+//                                ApiType.GROQ -> groqMessage
                                 ApiType.OLLAMA -> ollamaMessage
                             }
 
                             val loadingState = when (apiType) {
-                                ApiType.OPENAI -> openaiLoadingState
-                                ApiType.ANTHROPIC -> anthropicLoadingState
-                                ApiType.GOOGLE -> googleLoadingState
-                                ApiType.GROQ -> groqLoadingState
+//                                ApiType.OPENAI -> openaiLoadingState
+//                                ApiType.ANTHROPIC -> anthropicLoadingState
+//                                ApiType.GOOGLE -> googleLoadingState
+//                                ApiType.GROQ -> groqLoadingState
                                 ApiType.OLLAMA -> ollamaLoadingState
                             }
 

@@ -34,6 +34,7 @@ import dev.chungjungsoo.gptmobile.data.ModelConstants.googleModels
 import dev.chungjungsoo.gptmobile.data.ModelConstants.groqModels
 import dev.chungjungsoo.gptmobile.data.ModelConstants.ollamaModels
 import dev.chungjungsoo.gptmobile.data.ModelConstants.openaiModels
+import dev.chungjungsoo.gptmobile.data.dto.APIModel
 import dev.chungjungsoo.gptmobile.data.model.ApiType
 import dev.chungjungsoo.gptmobile.presentation.common.RadioItem
 import dev.chungjungsoo.gptmobile.presentation.common.TokenInputField
@@ -286,18 +287,18 @@ private fun ModelDialog(
     onConfirmRequest: (model: String) -> Unit
 ) {
     val modelList = when (apiType) {
-        ApiType.OPENAI -> openaiModels
-        ApiType.ANTHROPIC -> anthropicModels
-        ApiType.GOOGLE -> googleModels
-        ApiType.GROQ -> groqModels
+//        ApiType.OPENAI -> openaiModels
+//        ApiType.ANTHROPIC -> anthropicModels
+//        ApiType.GOOGLE -> googleModels
+//        ApiType.GROQ -> groqModels
         ApiType.OLLAMA -> ollamaModels
     }
     val availableModels = when (apiType) {
-        ApiType.OPENAI -> generateOpenAIModelList(models = modelList)
-        ApiType.ANTHROPIC -> generateAnthropicModelList(models = modelList)
-        ApiType.GOOGLE -> generateGoogleModelList(models = modelList)
-        ApiType.GROQ -> generateGroqModelList(models = modelList)
-        ApiType.OLLAMA -> listOf()
+//        ApiType.OPENAI -> generateOpenAIModelList(models = modelList)
+//        ApiType.ANTHROPIC -> generateAnthropicModelList(models = modelList)
+//        ApiType.GOOGLE -> generateGoogleModelList(models = modelList)
+//        ApiType.GROQ -> generateGroqModelList(models = modelList)
+        ApiType.OLLAMA -> listOf<APIModel>()
     }
     val configuration = LocalConfiguration.current
     var model by remember { mutableStateOf(initModel) }
@@ -413,7 +414,7 @@ private fun TemperatureDialog(
                         val converted = t.toFloatOrNull()
                         converted?.let {
                             sliderTemperature = when (apiType) {
-                                ApiType.ANTHROPIC -> it.coerceIn(0F, 1F)
+//                                ApiType.ANTHROPIC -> it.coerceIn(0F, 1F)
                                 else -> it.coerceIn(0F, 2F)
                             }
                         }
@@ -429,11 +430,11 @@ private fun TemperatureDialog(
                         .padding(horizontal = 20.dp, vertical = 16.dp),
                     value = sliderTemperature,
                     valueRange = when (apiType) {
-                        ApiType.ANTHROPIC -> 0F..1F
+//                        ApiType.ANTHROPIC -> 0F..1F
                         else -> 0F..2F
                     },
                     steps = when (apiType) {
-                        ApiType.ANTHROPIC -> 10 - 1
+//                        ApiType.ANTHROPIC -> 10 - 1
                         else -> 20 - 1
                     },
                     onValueChange = { t ->

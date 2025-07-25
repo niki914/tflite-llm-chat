@@ -16,10 +16,10 @@ object ModelConstants {
     const val GROQ_API_URL = "https://api.groq.com/openai/v1/"
 
     fun getDefaultAPIUrl(apiType: ApiType) = when (apiType) {
-        ApiType.OPENAI -> OPENAI_API_URL
-        ApiType.ANTHROPIC -> ANTHROPIC_API_URL
-        ApiType.GOOGLE -> GOOGLE_API_URL
-        ApiType.GROQ -> GROQ_API_URL
+//        ApiType.OPENAI -> OPENAI_API_URL
+//        ApiType.ANTHROPIC -> ANTHROPIC_API_URL
+//        ApiType.GOOGLE -> GOOGLE_API_URL
+//        ApiType.GROQ -> GROQ_API_URL
         ApiType.OLLAMA -> ""
     }
 

@@ -87,10 +87,10 @@ fun PlatformSettingScreen(
             val temperature = platform?.temperature ?: 1F
             val topP = platform?.topP
             val systemPrompt = platform?.systemPrompt ?: when (apiType) {
-                ApiType.OPENAI -> ModelConstants.OPENAI_PROMPT
-                ApiType.ANTHROPIC -> ModelConstants.DEFAULT_PROMPT
-                ApiType.GOOGLE -> ModelConstants.DEFAULT_PROMPT
-                ApiType.GROQ -> ModelConstants.DEFAULT_PROMPT
+//                ApiType.OPENAI -> ModelConstants.OPENAI_PROMPT
+//                ApiType.ANTHROPIC -> ModelConstants.DEFAULT_PROMPT
+//                ApiType.GOOGLE -> ModelConstants.DEFAULT_PROMPT
+//                ApiType.GROQ -> ModelConstants.DEFAULT_PROMPT
                 ApiType.OLLAMA -> ModelConstants.DEFAULT_PROMPT
             }
 
@@ -102,7 +102,7 @@ fun PlatformSettingScreen(
                 modifier = Modifier.height(64.dp),
                 title = stringResource(R.string.api_url),
                 description = url,
-                enabled = enabled && platform.name != ApiType.GOOGLE,
+                enabled = enabled, // && platform.name != ApiType.GOOGLE,
                 onItemClick = settingViewModel::openApiUrlDialog,
                 showTrailingIcon = false,
                 showLeadingIcon = true,

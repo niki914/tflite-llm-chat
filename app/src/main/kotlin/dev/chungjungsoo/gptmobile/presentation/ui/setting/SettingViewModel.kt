@@ -104,7 +104,7 @@ class SettingViewModel @Inject constructor(
     fun updateTemperature(apiType: ApiType, temperature: Float) {
         val index = _platformState.value.indexOfFirst { it.name == apiType }
         val modifiedTemperature = when (apiType) {
-            ApiType.ANTHROPIC -> temperature.coerceIn(0F, 1F)
+//            ApiType.ANTHROPIC -> temperature.coerceIn(0F, 1F)
             else -> temperature.coerceIn(0F, 2F)
         }
 

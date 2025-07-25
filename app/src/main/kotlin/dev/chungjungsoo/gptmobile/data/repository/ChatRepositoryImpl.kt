@@ -51,105 +51,105 @@ class ChatRepositoryImpl @Inject constructor(
     private lateinit var ollama: OpenAI
     private lateinit var groq: OpenAI
 
-    override suspend fun completeOpenAIChat(question: Message, history: List<Message>): Flow<ApiState> {
-        val platform = checkNotNull(settingRepository.fetchPlatforms().firstOrNull { it.name == ApiType.OPENAI })
-        openAI = OpenAI(platform.token ?: "", host = OpenAIHost(baseUrl = platform.apiUrl))
+//    override suspend fun completeOpenAIChat(question: Message, history: List<Message>): Flow<ApiState> {
+//        val platform = checkNotNull(settingRepository.fetchPlatforms().firstOrNull { it.name == ApiType.OPENAI })
+//        openAI = OpenAI(platform.token ?: "", host = OpenAIHost(baseUrl = platform.apiUrl))
+//
+//        val generatedMessages = messageToOpenAICompatibleMessage(ApiType.OPENAI, history + listOf(question))
+//        val generatedMessageWithPrompt = listOf(
+//            ChatMessage(role = ChatRole.System, content = platform.systemPrompt ?: ModelConstants.OPENAI_PROMPT)
+//        ) + generatedMessages
+//        val chatCompletionRequest = ChatCompletionRequest(
+//            model = ModelId(platform.model ?: ""),
+//            messages = generatedMessageWithPrompt,
+//            temperature = platform.temperature?.toDouble(),
+//            topP = platform.topP?.toDouble()
+//        )
+//
+//        return openAI.chatCompletions(chatCompletionRequest)
+//            .map<ChatCompletionChunk, ApiState> { chunk -> ApiState.Success(chunk.choices.getOrNull(0)?.delta?.content ?: "") }
+//            .catch { throwable -> emit(ApiState.Error(throwable.message ?: "Unknown error")) }
+//            .onStart { emit(ApiState.Loading) }
+//            .onCompletion { emit(ApiState.Done) }
+//    }
 
-        val generatedMessages = messageToOpenAICompatibleMessage(ApiType.OPENAI, history + listOf(question))
-        val generatedMessageWithPrompt = listOf(
-            ChatMessage(role = ChatRole.System, content = platform.systemPrompt ?: ModelConstants.OPENAI_PROMPT)
-        ) + generatedMessages
-        val chatCompletionRequest = ChatCompletionRequest(
-            model = ModelId(platform.model ?: ""),
-            messages = generatedMessageWithPrompt,
-            temperature = platform.temperature?.toDouble(),
-            topP = platform.topP?.toDouble()
-        )
+//    override suspend fun completeAnthropicChat(question: Message, history: List<Message>): Flow<ApiState> {
+//        val platform = checkNotNull(settingRepository.fetchPlatforms().firstOrNull { it.name == ApiType.ANTHROPIC })
+//        anthropic.setToken(platform.token)
+//        anthropic.setAPIUrl(platform.apiUrl)
+//
+//        val generatedMessages = messageToAnthropicMessage(history + listOf(question))
+//        val messageRequest = MessageRequest(
+//            model = platform.model ?: "",
+//            messages = generatedMessages,
+//            maxTokens = ModelConstants.ANTHROPIC_MAXIMUM_TOKEN,
+//            systemPrompt = platform.systemPrompt ?: ModelConstants.DEFAULT_PROMPT,
+//            stream = true,
+//            temperature = platform.temperature,
+//            topP = platform.topP
+//        )
+//
+//        return anthropic.streamChatMessage(messageRequest)
+//            .map<MessageResponseChunk, ApiState> { chunk ->
+//                when (chunk) {
+//                    is ContentDeltaResponseChunk -> ApiState.Success(chunk.delta.text)
+//                    is ErrorResponseChunk -> throw Error(chunk.error.message)
+//                    else -> ApiState.Success("")
+//                }
+//            }
+//            .catch { throwable -> emit(ApiState.Error(throwable.message ?: "Unknown error")) }
+//            .onStart { emit(ApiState.Loading) }
+//            .onCompletion { emit(ApiState.Done) }
+//    }
 
-        return openAI.chatCompletions(chatCompletionRequest)
-            .map<ChatCompletionChunk, ApiState> { chunk -> ApiState.Success(chunk.choices.getOrNull(0)?.delta?.content ?: "") }
-            .catch { throwable -> emit(ApiState.Error(throwable.message ?: "Unknown error")) }
-            .onStart { emit(ApiState.Loading) }
-            .onCompletion { emit(ApiState.Done) }
-    }
+//    override suspend fun completeGoogleChat(question: Message, history: List<Message>): Flow<ApiState> {
+//        val platform = checkNotNull(settingRepository.fetchPlatforms().firstOrNull { it.name == ApiType.GOOGLE })
+//        val config = generationConfig {
+//            temperature = platform.temperature
+//            topP = platform.topP
+//        }
+//        google = GenerativeModel(
+//            modelName = platform.model ?: "",
+//            apiKey = platform.token ?: "",
+//            systemInstruction = content { text(platform.systemPrompt ?: ModelConstants.DEFAULT_PROMPT) },
+//            generationConfig = config,
+//            safetySettings = listOf(
+//                SafetySetting(HarmCategory.DANGEROUS_CONTENT, BlockThreshold.ONLY_HIGH),
+//                SafetySetting(HarmCategory.SEXUALLY_EXPLICIT, BlockThreshold.NONE)
+//            )
+//        )
+//
+//        val inputContent = messageToGoogleMessage(history)
+//        val chat = google.startChat(history = inputContent)
+//
+//        return chat.sendMessageStream(question.content)
+//            .map<GenerateContentResponse, ApiState> { response -> ApiState.Success(response.text ?: "") }
+//            .catch { throwable -> emit(ApiState.Error(throwable.message ?: "Unknown error")) }
+//            .onStart { emit(ApiState.Loading) }
+//            .onCompletion { emit(ApiState.Done) }
+//    }
 
-    override suspend fun completeAnthropicChat(question: Message, history: List<Message>): Flow<ApiState> {
-        val platform = checkNotNull(settingRepository.fetchPlatforms().firstOrNull { it.name == ApiType.ANTHROPIC })
-        anthropic.setToken(platform.token)
-        anthropic.setAPIUrl(platform.apiUrl)
-
-        val generatedMessages = messageToAnthropicMessage(history + listOf(question))
-        val messageRequest = MessageRequest(
-            model = platform.model ?: "",
-            messages = generatedMessages,
-            maxTokens = ModelConstants.ANTHROPIC_MAXIMUM_TOKEN,
-            systemPrompt = platform.systemPrompt ?: ModelConstants.DEFAULT_PROMPT,
-            stream = true,
-            temperature = platform.temperature,
-            topP = platform.topP
-        )
-
-        return anthropic.streamChatMessage(messageRequest)
-            .map<MessageResponseChunk, ApiState> { chunk ->
-                when (chunk) {
-                    is ContentDeltaResponseChunk -> ApiState.Success(chunk.delta.text)
-                    is ErrorResponseChunk -> throw Error(chunk.error.message)
-                    else -> ApiState.Success("")
-                }
-            }
-            .catch { throwable -> emit(ApiState.Error(throwable.message ?: "Unknown error")) }
-            .onStart { emit(ApiState.Loading) }
-            .onCompletion { emit(ApiState.Done) }
-    }
-
-    override suspend fun completeGoogleChat(question: Message, history: List<Message>): Flow<ApiState> {
-        val platform = checkNotNull(settingRepository.fetchPlatforms().firstOrNull { it.name == ApiType.GOOGLE })
-        val config = generationConfig {
-            temperature = platform.temperature
-            topP = platform.topP
-        }
-        google = GenerativeModel(
-            modelName = platform.model ?: "",
-            apiKey = platform.token ?: "",
-            systemInstruction = content { text(platform.systemPrompt ?: ModelConstants.DEFAULT_PROMPT) },
-            generationConfig = config,
-            safetySettings = listOf(
-                SafetySetting(HarmCategory.DANGEROUS_CONTENT, BlockThreshold.ONLY_HIGH),
-                SafetySetting(HarmCategory.SEXUALLY_EXPLICIT, BlockThreshold.NONE)
-            )
-        )
-
-        val inputContent = messageToGoogleMessage(history)
-        val chat = google.startChat(history = inputContent)
-
-        return chat.sendMessageStream(question.content)
-            .map<GenerateContentResponse, ApiState> { response -> ApiState.Success(response.text ?: "") }
-            .catch { throwable -> emit(ApiState.Error(throwable.message ?: "Unknown error")) }
-            .onStart { emit(ApiState.Loading) }
-            .onCompletion { emit(ApiState.Done) }
-    }
-
-    override suspend fun completeGroqChat(question: Message, history: List<Message>): Flow<ApiState> {
-        val platform = checkNotNull(settingRepository.fetchPlatforms().firstOrNull { it.name == ApiType.GROQ })
-        groq = OpenAI(platform.token ?: "", host = OpenAIHost(baseUrl = platform.apiUrl))
-
-        val generatedMessages = messageToOpenAICompatibleMessage(ApiType.GROQ, history + listOf(question))
-        val generatedMessageWithPrompt = listOf(
-            ChatMessage(role = ChatRole.System, content = platform.systemPrompt ?: ModelConstants.DEFAULT_PROMPT)
-        ) + generatedMessages
-        val chatCompletionRequest = ChatCompletionRequest(
-            model = ModelId(platform.model ?: ""),
-            messages = generatedMessageWithPrompt,
-            temperature = platform.temperature?.toDouble(),
-            topP = platform.topP?.toDouble()
-        )
-
-        return groq.chatCompletions(chatCompletionRequest)
-            .map<ChatCompletionChunk, ApiState> { chunk -> ApiState.Success(chunk.choices.getOrNull(0)?.delta?.content ?: "") }
-            .catch { throwable -> emit(ApiState.Error(throwable.message ?: "Unknown error")) }
-            .onStart { emit(ApiState.Loading) }
-            .onCompletion { emit(ApiState.Done) }
-    }
+//    override suspend fun completeGroqChat(question: Message, history: List<Message>): Flow<ApiState> {
+//        val platform = checkNotNull(settingRepository.fetchPlatforms().firstOrNull { it.name == ApiType.GROQ })
+//        groq = OpenAI(platform.token ?: "", host = OpenAIHost(baseUrl = platform.apiUrl))
+//
+//        val generatedMessages = messageToOpenAICompatibleMessage(ApiType.GROQ, history + listOf(question))
+//        val generatedMessageWithPrompt = listOf(
+//            ChatMessage(role = ChatRole.System, content = platform.systemPrompt ?: ModelConstants.DEFAULT_PROMPT)
+//        ) + generatedMessages
+//        val chatCompletionRequest = ChatCompletionRequest(
+//            model = ModelId(platform.model ?: ""),
+//            messages = generatedMessageWithPrompt,
+//            temperature = platform.temperature?.toDouble(),
+//            topP = platform.topP?.toDouble()
+//        )
+//
+//        return groq.chatCompletions(chatCompletionRequest)
+//            .map<ChatCompletionChunk, ApiState> { chunk -> ApiState.Success(chunk.choices.getOrNull(0)?.delta?.content ?: "") }
+//            .catch { throwable -> emit(ApiState.Error(throwable.message ?: "Unknown error")) }
+//            .onStart { emit(ApiState.Loading) }
+//            .onCompletion { emit(ApiState.Done) }
+//    }
 
     override suspend fun completeOllamaChat(question: Message, history: List<Message>): Flow<ApiState> {
         val platform = checkNotNull(settingRepository.fetchPlatforms().firstOrNull { it.name == ApiType.OLLAMA })
@@ -260,9 +260,9 @@ class ChatRepositoryImpl @Inject constructor(
                     InputMessage(role = MessageRole.USER, content = listOf(TextContent(text = message.content)))
                 )
 
-                ApiType.ANTHROPIC -> result.add(
-                    InputMessage(role = MessageRole.ASSISTANT, content = listOf(TextContent(text = message.content)))
-                )
+//                ApiType.ANTHROPIC -> result.add(
+//                    InputMessage(role = MessageRole.ASSISTANT, content = listOf(TextContent(text = message.content)))
+//                )
 
                 else -> {}
             }
@@ -278,7 +278,7 @@ class ChatRepositoryImpl @Inject constructor(
             when (message.platformType) {
                 null -> result.add(content(role = "user") { text(message.content) })
 
-                ApiType.GOOGLE -> result.add(content(role = "model") { text(message.content) })
+//                ApiType.GOOGLE -> result.add(content(role = "model") { text(message.content) })
 
                 else -> {}
             }

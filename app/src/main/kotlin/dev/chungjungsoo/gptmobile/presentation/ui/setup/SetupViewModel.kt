@@ -24,10 +24,10 @@ class SetupViewModel @Inject constructor(private val settingRepository: SettingR
 
     private val _platformState = MutableStateFlow(
         listOf(
-            Platform(ApiType.OPENAI),
-            Platform(ApiType.ANTHROPIC),
-            Platform(ApiType.GOOGLE),
-            Platform(ApiType.GROQ),
+//            Platform(ApiType.OPENAI),
+//            Platform(ApiType.ANTHROPIC),
+//            Platform(ApiType.GOOGLE),
+//            Platform(ApiType.GROQ),
             Platform(ApiType.OLLAMA)
         )
     )
@@ -113,20 +113,20 @@ class SetupViewModel @Inject constructor(private val settingRepository: SettingR
         val steps = listOf(
             Route.SELECT_PLATFORM,
             Route.TOKEN_INPUT,
-            Route.OPENAI_MODEL_SELECT,
-            Route.ANTHROPIC_MODEL_SELECT,
-            Route.GOOGLE_MODEL_SELECT,
-            Route.GROQ_MODEL_SELECT,
+//            Route.OPENAI_MODEL_SELECT,
+//            Route.ANTHROPIC_MODEL_SELECT,
+//            Route.GOOGLE_MODEL_SELECT,
+//            Route.GROQ_MODEL_SELECT,
             Route.OLLAMA_MODEL_SELECT,
             Route.OLLAMA_API_ADDRESS,
             Route.SETUP_COMPLETE
         )
         val commonSteps = mutableSetOf(Route.SELECT_PLATFORM, Route.TOKEN_INPUT, Route.SETUP_COMPLETE)
         val platformStep = mapOf(
-            Route.OPENAI_MODEL_SELECT to ApiType.OPENAI,
-            Route.ANTHROPIC_MODEL_SELECT to ApiType.ANTHROPIC,
-            Route.GOOGLE_MODEL_SELECT to ApiType.GOOGLE,
-            Route.GROQ_MODEL_SELECT to ApiType.GROQ,
+//            Route.OPENAI_MODEL_SELECT to ApiType.OPENAI,
+//            Route.ANTHROPIC_MODEL_SELECT to ApiType.ANTHROPIC,
+//            Route.GOOGLE_MODEL_SELECT to ApiType.GOOGLE,
+//            Route.GROQ_MODEL_SELECT to ApiType.GROQ,
             Route.OLLAMA_MODEL_SELECT to ApiType.OLLAMA,
             Route.OLLAMA_API_ADDRESS to ApiType.OLLAMA
         )
@@ -154,10 +154,10 @@ class SetupViewModel @Inject constructor(private val settingRepository: SettingR
 
     fun setDefaultModel(apiType: ApiType, defaultModelIndex: Int): String {
         val modelList = when (apiType) {
-            ApiType.OPENAI -> openaiModels
-            ApiType.ANTHROPIC -> anthropicModels
-            ApiType.GOOGLE -> googleModels
-            ApiType.GROQ -> groqModels
+//            ApiType.OPENAI -> openaiModels
+//            ApiType.ANTHROPIC -> anthropicModels
+//            ApiType.GOOGLE -> googleModels
+//            ApiType.GROQ -> groqModels
             ApiType.OLLAMA -> ollamaModels
         }.toList()
 

@@ -414,10 +414,10 @@ fun EnablePlatformWarningText() {
 @Composable
 private fun SelectPlatformDialogPreview() {
     val platforms = listOf(
-        Platform(ApiType.OPENAI, enabled = true),
-        Platform(ApiType.ANTHROPIC, enabled = false),
-        Platform(ApiType.GOOGLE, enabled = false),
-        Platform(ApiType.GROQ, enabled = true),
+//        Platform(ApiType.OPENAI, enabled = true),
+//        Platform(ApiType.ANTHROPIC, enabled = false),
+//        Platform(ApiType.GOOGLE, enabled = false),
+//        Platform(ApiType.GROQ, enabled = true),
         Platform(ApiType.OLLAMA, enabled = true)
     )
     SelectPlatformDialog(
