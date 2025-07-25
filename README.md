@@ -4,6 +4,44 @@
 
 # GPT Mobile
 
+
+
+## What's New in This Fork?
+
+```diff
++ What's New in This Fork?
++ This fork introduces a significant enhancement: featured support for on-device chat with TensorFlow Lite (TFLite) local models.
+```
+
+For detailed guidance, refer to the Google MediaPipe LLM Inference Android Guide.
+
+You can download example models, such as Gemma 2B IT (MediaPipe), from Hugging Face: litert-community/Gemma3-1B-IT.
+
+### References
+
+[google official guide](https://ai.google.dev/edge/mediapipe/solutions/genai/llm_inference/android)
+
+[Gemma3 on Hugging face](https://huggingface.co/litert-community/Gemma3-1B-IT)
+
+### Usage Instructions
+Download the Model: Obtain a `.task` model file (e.g., gemma.task) from a source like HuggingFace/Gemma3.
+
+Push to Device: Use adb or another file transfer method to push the downloaded `.task` file to the specified path on your Android device:
+
+```Bash
+adb push your/download/path/model_name.task /data/local/tmp/llm/model_name.task
+```
+
+(Replace model_name.task with the actual name of your downloaded model file.)
+
+### Configure in App:
+
+Navigate to the TensorFlow Lite settings within the GPT Mobile app.
+
+Set the API Model field to the filename of your pushed .task model, without the `.task` extension. For instance, if you pushed `gemma.task`, you should enter `gemma`.
+
+That's it! You can now enjoy chatting with your local TFLite model.
+
 ### Chat Assistant for Android that supports chatting with multiple models at once.
 
 <p>
@@ -39,11 +77,12 @@
 - **Chat with multiple models at once**
   - Uses official APIs for each platforms
   - Supported platforms:
-    - OpenAI GPT
-    - Anthropic Claude
-    - Google Gemini
-    - Groq
+    - ~~OpenAI GPT~~
+    - ~~Anthropic Claude~~
+    - ~~Google Gemini~~
+    - ~~Groq~~
     - Ollama
+    - TF Lite Models
   - Can customize temperature, top p (Nucleus sampling), and system prompt
   - Custom API URLs, Custom Models are also supported
 - Local chat history
