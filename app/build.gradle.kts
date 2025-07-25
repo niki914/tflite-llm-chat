@@ -14,11 +14,11 @@ android {
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "dev.chungjungsoo.gptmobile"
+        applicationId = "dev.chungjungsoo.gptmobile.niki"
         minSdk = 31
         targetSdk = 35
-        versionCode = 15
-        versionName = "0.6.3"
+        versionCode = 20
+        versionName = "x"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
