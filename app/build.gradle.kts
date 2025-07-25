@@ -13,6 +13,10 @@ android {
     namespace = "dev.chungjungsoo.gptmobile"
     compileSdk = 35
 
+    lint {
+        disable.add("NullSafeMutableLiveData")
+    }
+
     defaultConfig {
         applicationId = "dev.chungjungsoo.gptmobile.niki"
         minSdk = 31

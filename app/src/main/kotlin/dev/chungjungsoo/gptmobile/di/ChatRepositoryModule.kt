@@ -26,5 +26,5 @@ object ChatRepositoryModule {
         messageDao: MessageDao,
         settingRepository: SettingRepository,
         anthropicAPI: AnthropicAPI
-    ): ChatRepository = ChatRepositoryImpl(appContext, chatRoomDao, messageDao, settingRepository, anthropicAPI)
+    ): ChatRepository = ChatRepositoryImpl(chatRoomDao, messageDao, settingRepository)
 }

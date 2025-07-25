@@ -79,58 +79,19 @@ fun NavGraphBuilder.setupNavigation(
                 onBackAction = { navController.navigateUp() }
             )
         }
-//        composable(route = Route.OPENAI_MODEL_SELECT) {
-//            val parentEntry = remember(it) {
-//                navController.getBackStackEntry(Route.SETUP_ROUTE)
-//            }
-//            val setupViewModel: SetupViewModel = hiltViewModel(parentEntry)
-//            SelectModelScreen(
-//                setupViewModel = setupViewModel,
-//                currentRoute = Route.OPENAI_MODEL_SELECT,
-//                platformType = ApiType.OPENAI,
-//                onNavigate = { route -> navController.navigate(route) },
-//                onBackAction = { navController.navigateUp() }
-//            )
-//        }
-//        composable(route = Route.ANTHROPIC_MODEL_SELECT) {
-//            val parentEntry = remember(it) {
-//                navController.getBackStackEntry(Route.SETUP_ROUTE)
-//            }
-//            val setupViewModel: SetupViewModel = hiltViewModel(parentEntry)
-//            SelectModelScreen(
-//                setupViewModel = setupViewModel,
-//                currentRoute = Route.ANTHROPIC_MODEL_SELECT,
-//                platformType = ApiType.ANTHROPIC,
-//                onNavigate = { route -> navController.navigate(route) },
-//                onBackAction = { navController.navigateUp() }
-//            )
-//        }
-//        composable(route = Route.GOOGLE_MODEL_SELECT) {
-//            val parentEntry = remember(it) {
-//                navController.getBackStackEntry(Route.SETUP_ROUTE)
-//            }
-//            val setupViewModel: SetupViewModel = hiltViewModel(parentEntry)
-//            SelectModelScreen(
-//                setupViewModel = setupViewModel,
-//                currentRoute = Route.GOOGLE_MODEL_SELECT,
-//                platformType = ApiType.GOOGLE,
-//                onNavigate = { route -> navController.navigate(route) },
-//                onBackAction = { navController.navigateUp() }
-//            )
-//        }
-//        composable(route = Route.GROQ_MODEL_SELECT) {
-//            val parentEntry = remember(it) {
-//                navController.getBackStackEntry(Route.SETUP_ROUTE)
-//            }
-//            val setupViewModel: SetupViewModel = hiltViewModel(parentEntry)
-//            SelectModelScreen(
-//                setupViewModel = setupViewModel,
-//                currentRoute = Route.GROQ_MODEL_SELECT,
-//                platformType = ApiType.GROQ,
-//                onNavigate = { route -> navController.navigate(route) },
-//                onBackAction = { navController.navigateUp() }
-//            )
-//        }
+        composable(route = Route.TF_LITE_MODEL_SELECT) {
+            val parentEntry = remember(it) {
+                navController.getBackStackEntry(Route.SETUP_ROUTE)
+            }
+            val setupViewModel: SetupViewModel = hiltViewModel(parentEntry)
+            SelectModelScreen(
+                setupViewModel = setupViewModel,
+                currentRoute = Route.TF_LITE_MODEL_SELECT,
+                platformType = ApiType.TENSOR_FLOW_LITE,
+                onNavigate = { route -> navController.navigate(route) },
+                onBackAction = { navController.navigateUp() }
+            )
+        }
         composable(route = Route.OLLAMA_MODEL_SELECT) {
             val parentEntry = remember(it) {
                 navController.getBackStackEntry(Route.SETUP_ROUTE)
@@ -224,10 +185,6 @@ fun NavGraphBuilder.settingNavigation(navController: NavHostController) {
                 onNavigationClick = { navController.navigateUp() },
                 onNavigateToPlatformSetting = { apiType ->
                     when (apiType) {
-//                        ApiType.OPENAI -> navController.navigate(Route.OPENAI_SETTINGS)
-//                        ApiType.ANTHROPIC -> navController.navigate(Route.ANTHROPIC_SETTINGS)
-//                        ApiType.GOOGLE -> navController.navigate(Route.GOOGLE_SETTINGS)
-//                        ApiType.GROQ -> navController.navigate(Route.GROQ_SETTINGS)
                         ApiType.OLLAMA -> navController.navigate(Route.OLLAMA_SETTINGS)
                         ApiType.TENSOR_FLOW_LITE -> navController.navigate(Route.TF_LITE_SETTINGS)
                     }
@@ -235,46 +192,6 @@ fun NavGraphBuilder.settingNavigation(navController: NavHostController) {
                 onNavigateToAboutPage = { navController.navigate(Route.ABOUT_PAGE) }
             )
         }
-//        composable(Route.OPENAI_SETTINGS) {
-//            val parentEntry = remember(it) {
-//                navController.getBackStackEntry(Route.SETTING_ROUTE)
-//            }
-//            val settingViewModel: SettingViewModel = hiltViewModel(parentEntry)
-//            PlatformSettingScreen(
-//                settingViewModel = settingViewModel,
-//                apiType = ApiType.OPENAI
-//            ) { navController.navigateUp() }
-//        }
-//        composable(Route.ANTHROPIC_SETTINGS) {
-//            val parentEntry = remember(it) {
-//                navController.getBackStackEntry(Route.SETTING_ROUTE)
-//            }
-//            val settingViewModel: SettingViewModel = hiltViewModel(parentEntry)
-//            PlatformSettingScreen(
-//                settingViewModel = settingViewModel,
-//                apiType = ApiType.ANTHROPIC
-//            ) { navController.navigateUp() }
-//        }
-//        composable(Route.GOOGLE_SETTINGS) {
-//            val parentEntry = remember(it) {
-//                navController.getBackStackEntry(Route.SETTING_ROUTE)
-//            }
-//            val settingViewModel: SettingViewModel = hiltViewModel(parentEntry)
-//            PlatformSettingScreen(
-//                settingViewModel = settingViewModel,
-//                apiType = ApiType.GOOGLE
-//            ) { navController.navigateUp() }
-//        }
-//        composable(Route.GROQ_SETTINGS) {
-//            val parentEntry = remember(it) {
-//                navController.getBackStackEntry(Route.SETTING_ROUTE)
-//            }
-//            val settingViewModel: SettingViewModel = hiltViewModel(parentEntry)
-//            PlatformSettingScreen(
-//                settingViewModel = settingViewModel,
-//                apiType = ApiType.GROQ
-//            ) { navController.navigateUp() }
-//        }
         composable(Route.OLLAMA_SETTINGS) {
             val parentEntry = remember(it) {
                 navController.getBackStackEntry(Route.SETTING_ROUTE)

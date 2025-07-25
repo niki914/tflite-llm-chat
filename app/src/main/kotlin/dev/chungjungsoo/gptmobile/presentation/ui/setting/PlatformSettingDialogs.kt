@@ -280,18 +280,10 @@ private fun ModelDialog(
     onConfirmRequest: (model: String) -> Unit
 ) {
     val modelList = when (apiType) {
-//        ApiType.OPENAI -> openaiModels
-//        ApiType.ANTHROPIC -> anthropicModels
-//        ApiType.GOOGLE -> googleModels
-//        ApiType.GROQ -> groqModels
         ApiType.OLLAMA -> ollamaModels
         ApiType.TENSOR_FLOW_LITE -> tfLiteModels
     }
     val availableModels = when (apiType) {
-//        ApiType.OPENAI -> generateOpenAIModelList(models = modelList)
-//        ApiType.ANTHROPIC -> generateAnthropicModelList(models = modelList)
-//        ApiType.GOOGLE -> generateGoogleModelList(models = modelList)
-//        ApiType.GROQ -> generateGroqModelList(models = modelList)
         ApiType.OLLAMA -> listOf<APIModel>()
         ApiType.TENSOR_FLOW_LITE -> listOf<APIModel>()
     }
@@ -409,7 +401,6 @@ private fun TemperatureDialog(
                         val converted = t.toFloatOrNull()
                         converted?.let {
                             sliderTemperature = when (apiType) {
-//                                ApiType.ANTHROPIC -> it.coerceIn(0F, 1F)
                                 else -> it.coerceIn(0F, 2F)
                             }
                         }
@@ -425,11 +416,9 @@ private fun TemperatureDialog(
                         .padding(horizontal = 20.dp, vertical = 16.dp),
                     value = sliderTemperature,
                     valueRange = when (apiType) {
-//                        ApiType.ANTHROPIC -> 0F..1F
                         else -> 0F..2F
                     },
                     steps = when (apiType) {
-//                        ApiType.ANTHROPIC -> 10 - 1
                         else -> 20 - 1
                     },
                     onValueChange = { t ->

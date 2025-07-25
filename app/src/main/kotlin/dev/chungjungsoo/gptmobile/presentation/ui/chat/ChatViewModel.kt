@@ -97,19 +97,6 @@ class ChatViewModel @Inject constructor(
     private val _userMessage = MutableStateFlow(Message(chatId = chatRoomId, content = "", platformType = null))
     val userMessage = _userMessage.asStateFlow()
 
-    // Currently active(chat completion) assistant output. This is used when data is received from the API.
-//    private val _openAIMessage = MutableStateFlow(Message(chatId = chatRoomId, content = "", platformType = ApiType.OPENAI))
-//    val openAIMessage = _openAIMessage.asStateFlow()
-
-//    private val _anthropicMessage = MutableStateFlow(Message(chatId = chatRoomId, content = "", platformType = ApiType.ANTHROPIC))
-//    val anthropicMessage = _anthropicMessage.asStateFlow()
-
-//    private val _googleMessage = MutableStateFlow(Message(chatId = chatRoomId, content = "", platformType = ApiType.GOOGLE))
-//    val googleMessage = _googleMessage.asStateFlow()
-
-//    private val _groqMessage = MutableStateFlow(Message(chatId = chatRoomId, content = "", platformType = ApiType.GROQ))
-//    val groqMessage = _groqMessage.asStateFlow()
-
     private val _tfLiteMessage = MutableStateFlow(Message(chatId = chatRoomId, content = "", platformType = ApiType.TENSOR_FLOW_LITE))
     val tfLiteMessage = _tfLiteMessage.asStateFlow()
 
@@ -120,10 +107,6 @@ class ChatViewModel @Inject constructor(
     val geminiNanoMessage = _geminiNanoMessage.asStateFlow()
 
     // Flows for assistant message streams
-//    private val openAIFlow = MutableSharedFlow<ApiState>()
-//    private val anthropicFlow = MutableSharedFlow<ApiState>()
-//    private val googleFlow = MutableSharedFlow<ApiState>()
-//    private val groqFlow = MutableSharedFlow<ApiState>()
     private val ollamaFlow = MutableSharedFlow<ApiState>()
     private val tfLiteFlow = MutableSharedFlow<ApiState>()
     private val geminiNanoFlow = MutableSharedFlow<ApiState>()
@@ -197,25 +180,6 @@ class ChatViewModel @Inject constructor(
         message.platformType?.let { updateLoadingState(it, LoadingState.Loading) }
 
         when (message.platformType) {
-//            ApiType.OPENAI -> {
-//                _openAIMessage.update { it.copy(id = message.id, content = "", createdAt = currentTimeStamp) }
-//                completeOpenAIChat()
-//            }
-//
-//            ApiType.ANTHROPIC -> {
-//                _anthropicMessage.update { it.copy(id = message.id, content = "", createdAt = currentTimeStamp) }
-//                completeAnthropicChat()
-//            }
-//
-//            ApiType.GOOGLE -> {
-//                _googleMessage.update { it.copy(id = message.id, content = "", createdAt = currentTimeStamp) }
-//                completeGoogleChat()
-//            }
-//
-//            ApiType.GROQ -> {
-//                _groqMessage.update { it.copy(id = message.id, content = "", createdAt = currentTimeStamp) }
-//                completeGroqChat()
-//            }
 
             ApiType.OLLAMA -> {
                 _ollamaMessage.update { it.copy(id = message.id, content = "", createdAt = currentTimeStamp) }
@@ -277,10 +241,6 @@ class ChatViewModel @Inject constructor(
 
     private fun clearQuestionAndAnswers() {
         _userMessage.update { it.copy(id = 0, content = "") }
-//        _openAIMessage.update { it.copy(id = 0, content = "") }
-//        _anthropicMessage.update { it.copy(id = 0, content = "") }
-//        _googleMessage.update { it.copy(id = 0, content = "") }
-//        _groqMessage.update { it.copy(id = 0, content = "") }
         _ollamaMessage.update { it.copy(id = 0, content = "") }
         _tfLiteMessage.update { it.copy(id = 0, content = "") }
     }
@@ -288,22 +248,6 @@ class ChatViewModel @Inject constructor(
     private fun completeChat() {
         enabledPlatformsInChat.forEach { apiType -> updateLoadingState(apiType, LoadingState.Loading) }
         val enabledPlatforms = enabledPlatformsInChat.toSet()
-
-//        if (ApiType.OPENAI in enabledPlatforms) {
-//            completeOpenAIChat()
-//        }
-//
-//        if (ApiType.ANTHROPIC in enabledPlatforms) {
-//            completeAnthropicChat()
-//        }
-//
-//        if (ApiType.GOOGLE in enabledPlatforms) {
-//            completeGoogleChat()
-//        }
-//
-//        if (ApiType.GROQ in enabledPlatforms) {
-//            completeGroqChat()
-//        }
 
         if (ApiType.OLLAMA in enabledPlatforms) {
             completeOllamaChat()
@@ -313,27 +257,6 @@ class ChatViewModel @Inject constructor(
             completeTFLiteChat()
         }
     }
-
-//    private fun completeAnthropicChat() {
-//        viewModelScope.launch {
-//            val chatFlow = chatRepository.completeAnthropicChat(question = _userMessage.value, history = _messages.value)
-//            chatFlow.collect { chunk -> anthropicFlow.emit(chunk) }
-//        }
-//    }
-//
-//    private fun completeGoogleChat() {
-//        viewModelScope.launch {
-//            val chatFlow = chatRepository.completeGoogleChat(question = _userMessage.value, history = _messages.value)
-//            chatFlow.collect { chunk -> googleFlow.emit(chunk) }
-//        }
-//    }
-//
-//    private fun completeGroqChat() {
-//        viewModelScope.launch {
-//            val chatFlow = chatRepository.completeGroqChat(question = _userMessage.value, history = _messages.value)
-//            chatFlow.collect { chunk -> groqFlow.emit(chunk) }
-//        }
-//    }
 
     private fun completeOllamaChat() {
         viewModelScope.launch {
@@ -348,13 +271,6 @@ class ChatViewModel @Inject constructor(
             chatFlow.collect { chunk -> tfLiteFlow.emit(chunk) }
         }
     }
-
-//    private fun completeOpenAIChat() {
-//        viewModelScope.launch {
-//            val chatFlow = chatRepository.completeOpenAIChat(question = _userMessage.value, history = _messages.value)
-//            chatFlow.collect { chunk -> openAIFlow.emit(chunk) }
-//        }
-//    }
 
     private suspend fun fetchMessages() {
         // If the room isn't new
@@ -392,33 +308,6 @@ class ChatViewModel @Inject constructor(
     }
 
     private fun observeFlow() {
-//        viewModelScope.launch {
-//            openAIFlow.handleStates(
-//                messageFlow = _openAIMessage,
-//                onLoadingComplete = { updateLoadingState(ApiType.OPENAI, LoadingState.Idle) }
-//            )
-//        }
-//
-//        viewModelScope.launch {
-//            anthropicFlow.handleStates(
-//                messageFlow = _anthropicMessage,
-//                onLoadingComplete = { updateLoadingState(ApiType.ANTHROPIC, LoadingState.Idle) }
-//            )
-//        }
-//
-//        viewModelScope.launch {
-//            googleFlow.handleStates(
-//                messageFlow = _googleMessage,
-//                onLoadingComplete = { updateLoadingState(ApiType.GOOGLE, LoadingState.Idle) }
-//            )
-//        }
-//
-//        viewModelScope.launch {
-//            groqFlow.handleStates(
-//                messageFlow = _groqMessage,
-//                onLoadingComplete = { updateLoadingState(ApiType.GROQ, LoadingState.Idle) }
-//            )
-//        }
 
         viewModelScope.launch {
             ollamaFlow.handleStates(
@@ -460,10 +349,6 @@ class ChatViewModel @Inject constructor(
     private fun restoreMessageState(apiType: ApiType, previousAnswers: List<Message>) {
         val message = previousAnswers.firstOrNull { it.platformType == apiType }
         val retryingState = when (apiType) {
-//            ApiType.OPENAI -> _openaiLoadingState
-//            ApiType.ANTHROPIC -> _anthropicLoadingState
-//            ApiType.GOOGLE -> _googleLoadingState
-//            ApiType.GROQ -> _groqLoadingState
             ApiType.OLLAMA -> _ollamaLoadingState
             ApiType.TENSOR_FLOW_LITE -> _tfLiteLoadingState
         }
@@ -472,10 +357,6 @@ class ChatViewModel @Inject constructor(
         if (message == null) return
 
         when (apiType) {
-//            ApiType.OPENAI -> _openAIMessage.update { message }
-//            ApiType.ANTHROPIC -> _anthropicMessage.update { message }
-//            ApiType.GOOGLE -> _googleMessage.update { message }
-//            ApiType.GROQ -> _groqMessage.update { message }
             ApiType.OLLAMA -> _ollamaMessage.update { message }
             ApiType.TENSOR_FLOW_LITE -> _tfLiteMessage.update { message }
         }
@@ -484,23 +365,6 @@ class ChatViewModel @Inject constructor(
     private fun syncQuestionAndAnswers() {
         addMessage(_userMessage.value)
         val enabledPlatforms = enabledPlatformsInChat.toSet()
-
-//        if (ApiType.OPENAI in enabledPlatforms) {
-//            addMessage(_openAIMessage.value)
-//        }
-//
-//        if (ApiType.ANTHROPIC in enabledPlatforms) {
-//            addMessage(_anthropicMessage.value)
-//        }
-//
-//        if (ApiType.GOOGLE in enabledPlatforms) {
-//            addMessage(_googleMessage.value)
-//        }
-//
-//        if (ApiType.GROQ in enabledPlatforms) {
-//            addMessage(_groqMessage.value)
-//        }
-
         if (ApiType.OLLAMA in enabledPlatforms) {
             addMessage(_ollamaMessage.value)
         }
@@ -512,10 +376,6 @@ class ChatViewModel @Inject constructor(
 
     private fun updateLoadingState(apiType: ApiType, loadingState: LoadingState) {
         when (apiType) {
-//            ApiType.OPENAI -> _openaiLoadingState.update { loadingState }
-//            ApiType.ANTHROPIC -> _anthropicLoadingState.update { loadingState }
-//            ApiType.GOOGLE -> _googleLoadingState.update { loadingState }
-//            ApiType.GROQ -> _groqLoadingState.update { loadingState }
             ApiType.OLLAMA -> _ollamaLoadingState.update { loadingState }
             ApiType.TENSOR_FLOW_LITE -> _tfLiteLoadingState.update { loadingState }
 
@@ -524,10 +384,6 @@ class ChatViewModel @Inject constructor(
         var result = true
         enabledPlatformsInChat.forEach {
             val state = when (it) {
-//                ApiType.OPENAI -> _openaiLoadingState
-//                ApiType.ANTHROPIC -> _anthropicLoadingState
-//                ApiType.GOOGLE -> _googleLoadingState
-//                ApiType.GROQ -> _groqLoadingState
                 ApiType.OLLAMA -> _ollamaLoadingState
                 ApiType.TENSOR_FLOW_LITE -> _tfLiteLoadingState
             }

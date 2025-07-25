@@ -50,10 +50,6 @@ fun SelectModelScreen(
     val title = getAPIModelSelectTitle(platformType)
     val description = getAPIModelSelectDescription(platformType)
     val availableModels = when (platformType) {
-//        ApiType.OPENAI -> generateOpenAIModelList(models = openaiModels)
-//        ApiType.ANTHROPIC -> generateAnthropicModelList(models = anthropicModels)
-//        ApiType.GOOGLE -> generateGoogleModelList(models = googleModels)
-//        ApiType.GROQ -> generateGroqModelList(models = groqModels)
         ApiType.OLLAMA -> listOf<APIModel>()
         ApiType.TENSOR_FLOW_LITE -> listOf()
     }
@@ -62,10 +58,6 @@ fun SelectModelScreen(
             setupViewModel.setDefaultModel(
                 platformType,
                 when (platformType) {
-//                    ApiType.OPENAI -> 0
-//                    ApiType.ANTHROPIC -> 0
-//                    ApiType.GOOGLE -> 1
-//                    ApiType.GROQ -> 0
                     ApiType.OLLAMA -> 0
                     ApiType.TENSOR_FLOW_LITE -> 0
                 }

@@ -87,10 +87,6 @@ fun PlatformSettingScreen(
             val temperature = platform?.temperature ?: 1F
             val topP = platform?.topP
             val systemPrompt = platform?.systemPrompt ?: when (apiType) {
-//                ApiType.OPENAI -> ModelConstants.OPENAI_PROMPT
-//                ApiType.ANTHROPIC -> ModelConstants.DEFAULT_PROMPT
-//                ApiType.GOOGLE -> ModelConstants.DEFAULT_PROMPT
-//                ApiType.GROQ -> ModelConstants.DEFAULT_PROMPT
                 ApiType.OLLAMA -> ModelConstants.DEFAULT_PROMPT
                 ApiType.TENSOR_FLOW_LITE -> ModelConstants.DEFAULT_PROMPT
             }
